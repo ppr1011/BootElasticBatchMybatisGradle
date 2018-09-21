@@ -10,10 +10,11 @@
 
 	<!-- Import our beans -->
 	<bean class="com.dashuf.demo.config.BatchJobConfig"></bean>
-
+	<bean class="com.dashuf.demo.job.batch.conf.DemoTaskletConf"></bean>
+	
 	<job id="demoBatchXmlJob" xmlns="http://www.springframework.org/schema/batch">
 		<step id="demoBatchXmlStep"><!--next="archiveFileStep" -->
-			<tasklet ref="demoBatchXmlTarget" method="exec">
+			<tasklet ref="demoBatchXmlTasklet" method="exec">
 				<!-- <chunk reader="jdbcItemReader" processor="DTD_productProcessor" 
 					writer="DTD_productWriter" commit-interval="1000"/> -->
 				
@@ -23,11 +24,24 @@
 	</job>
 	
 	
-	<bean id="demoBatchXmlTarget" class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
-		<property name="targetObject" ref="demoTasklet"></property>
-		<property name="targetMethod" value="exec"></property>
-	</bean>
 	
+	
+	<bean id="demoBatchXmlTasklet" class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
+
+		<property name="targetObject">
+			<bean id="demoXmlTaskletTarget" class="com.dashuf.demo.job.batch.tasklettarget.DemoTaskletTarget"></bean>
+		</property>	
+		
+		<property name="targetMethod" value="exec">			
+		</property>
+		
+		<property name="arguments">
+			<array value-type="java.lang.String">
+				<value>1</value>
+			</array>
+		</property>
+	</bean>
+
 	
 	
 </beans>

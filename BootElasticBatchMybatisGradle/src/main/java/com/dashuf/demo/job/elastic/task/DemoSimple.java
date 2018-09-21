@@ -51,13 +51,14 @@ public class DemoSimple implements SimpleJob{
 
 	
 	@Autowired
-	@Qualifier("demoBatchXmlJob")
-	private Job demoBatchXmlJob;
-	
-	
-	@Autowired
 	@Qualifier("demoTaskletBatchJob")
 	private Job demoTaskletBatchJob;
+	
+//	@Autowired
+//	@Qualifier("demoBatchXmlJob")
+//	private Job demoBatchXmlJob;
+	
+
 	
 	@Value("${simplejob.jobname:NoName}")
 	private String name;
@@ -87,9 +88,9 @@ public class DemoSimple implements SimpleJob{
 //				jobLauncher.run(demoOddBatchJob, jobParameters);
 //			}
 //			jobLauncher.run(demoBatchJob, jobParameters);			
-//			jobLauncher.run(demoTaskletBatchJob, jobParameters);
+//			jobLauncher.run(demoBatchXmlJob, jobParameters);
 			
-			jobLauncher.run(demoBatchXmlJob, jobParameters);
+			jobLauncher.run(demoTaskletBatchJob, jobParameters);
 
 		} catch (JobExecutionAlreadyRunningException e) {
 			e.printStackTrace();
