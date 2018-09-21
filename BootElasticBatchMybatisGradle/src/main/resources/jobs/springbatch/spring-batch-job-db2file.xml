@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+	<description>测试在XML中配置JOB</description>
+
+	<!-- Import our beans -->
+	<bean class="com.dashuf.demo.config.BatchJobConfig"></bean>
+
+	<job id="demoBatchXmlJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="demoBatchXmlStep"><!--next="archiveFileStep" -->
+			<tasklet ref="demoBatchXmlTarget" method="exec">
+				<!-- <chunk reader="jdbcItemReader" processor="DTD_productProcessor" 
+					writer="DTD_productWriter" commit-interval="1000"/> -->
+				
+				
+			</tasklet>
+		</step>
+	</job>
+	
+	
+	<bean id="demoBatchXmlTarget" class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter">
+		<property name="targetObject" ref="demoTasklet"></property>
+		<property name="targetMethod" value="exec"></property>
+	</bean>
+	
+	
+	
+</beans>
