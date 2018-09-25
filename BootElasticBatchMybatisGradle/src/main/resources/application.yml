@@ -1,5 +1,5 @@
 server:
-  port: 8930
+  port: 8980
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -18,9 +18,9 @@ regCenter:
   namespace: demo
       
 simpleJob:
-  cron: 1 * * * * ?
-  shardingTotalCount: 1
-  shardingItemParameters: 0=even,1=odd
+  cron: 1/20 * * * * ?
+  shardingTotalCount: 2
+  shardingItemParameters: 0=0,1=1
   name: DEMO-JOB
   description: 奇偶分片查询
   

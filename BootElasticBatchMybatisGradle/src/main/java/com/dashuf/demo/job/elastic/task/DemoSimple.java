@@ -30,10 +30,26 @@ import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.dashuf.demo.bo.SpecificUser;
 import com.dashuf.demo.bo.User;
+import com.dashuf.demo.job.batch.conf.DemoModJobConf;
 import com.dashuf.demo.support.SpringUtil;
 
+/**
+ * SimpleJob样例
+ * @author chenguiqi
+ *
+ */
 public class DemoSimple implements SimpleJob{
 
+	
+	@Autowired
+	@Qualifier("stepBuilderFactory")
+	private StepBuilderFactory stepBuilderFactory;
+	
+	@Autowired
+	@Qualifier("jobBuilderFactory")
+	private JobBuilderFactory jobBuilderFactory;
+	
+	
 	@Autowired
 	private JobLauncher jobLauncher;
 
@@ -48,17 +64,21 @@ public class DemoSimple implements SimpleJob{
 	@Autowired
 	@Qualifier("demoBatchJob")
 	private Job demoBatchJob;
-
 	
 	@Autowired
 	@Qualifier("demoTaskletBatchJob")
 	private Job demoTaskletBatchJob;
 	
-//	@Autowired
-//	@Qualifier("demoBatchXmlJob")
-//	private Job demoBatchXmlJob;
+	@Autowired
+	@Qualifier("demoBatchXmlJob")
+	private Job demoBatchXmlJob;
 	
-
+	@Autowired
+	private DemoModJobConf demoModJobConf;
+	
+	@Autowired
+	@Qualifier("demoBatchModJob")
+	private Job demoBatchModJob;
 	
 	@Value("${simplejob.jobname:NoName}")
 	private String name;
@@ -67,6 +87,8 @@ public class DemoSimple implements SimpleJob{
 		return name;
 	}
 
+	public JobParameters jobParameters;
+	
 	@Override
 	public void execute(ShardingContext shardingContext) {
 //		System.out.println(String.format(
@@ -76,8 +98,8 @@ public class DemoSimple implements SimpleJob{
 //				shardingContext.getJobName(), shardingContext.getJobParameter()
 //
 //		));
-		JobParameters jobParameters = new JobParametersBuilder().addLong("time", System.currentTimeMillis())
-				.toJobParameters();		
+		jobParameters = new JobParametersBuilder().addLong("time", System.currentTimeMillis()).addLong("modNum", Long.valueOf(shardingContext.getShardingParameter()))
+				.toJobParameters();				
 		String start = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		long startTime = System.currentTimeMillis();
 		
@@ -89,9 +111,15 @@ public class DemoSimple implements SimpleJob{
 //			}
 //			jobLauncher.run(demoBatchJob, jobParameters);			
 //			jobLauncher.run(demoBatchXmlJob, jobParameters);
-			
-			jobLauncher.run(demoTaskletBatchJob, jobParameters);
+//			jobLauncher.run(demoTaskletBatchJob, jobParameters);
 
+//			int index = Integer.valueOf(shardingContext.getShardingParameter());
+//			ItemReader<User> reader = demoModJobConf.reader();		
+//			Job job = demoModJobConf.demoBatchJob(jobBuilderFactory, demoModJobConf.step(stepBuilderFactory, reader, demoModJobConf.writer(), demoModJobConf.processor()));			
+//			jobLauncher.run(job, jobParameters);
+			
+			jobLauncher.run(demoBatchModJob, jobParameters);
+			
 		} catch (JobExecutionAlreadyRunningException e) {
 			e.printStackTrace();
 		} catch (JobRestartException e) {

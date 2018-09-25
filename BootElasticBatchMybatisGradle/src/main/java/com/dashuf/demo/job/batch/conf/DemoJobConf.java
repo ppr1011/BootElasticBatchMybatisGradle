@@ -67,7 +67,7 @@ public class DemoJobConf {
 	}
 
 	@Bean("demoBatchJob")
-	public Job DemoBatchJob(JobBuilderFactory jobBuilderFactory, @Qualifier("demoBatchStep") Step step) {
+	public Job demoBatchJob(JobBuilderFactory jobBuilderFactory, @Qualifier("demoBatchStep") Step step) {
 		return jobBuilderFactory.get("demoBatchJob").incrementer(new RunIdIncrementer()).flow(step).end()
 				.listener(new DemoJobListener()).build();
 	}

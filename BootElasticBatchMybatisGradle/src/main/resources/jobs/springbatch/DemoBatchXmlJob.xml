@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+	<description>测试在XML中配置JOB</description>
+
+	<!-- Import our beans -->
+	<job id="demoBatchXmlJob" xmlns="http://www.springframework.org/schema/batch">
+		<split id="split1" task-executor="demoTaskExecutor" next="step4">
+			<flow>
+				<step id="step1" next="step2">
+					<tasklet>
+						<chunk reader="demoReader" processor="demoProcessor" writer="demoWriter"
+							commit-interval="2000"></chunk>
+
+					</tasklet>
+				</step>
+				<step id="step2">
+					<tasklet>
+						<chunk reader="demoReader" processor="demoProcessor" writer="demoWriter"
+							commit-interval="2000"></chunk>
+					</tasklet>
+				</step>
+			</flow>
+			<flow>
+				<step id="step3">
+					<tasklet>
+						<chunk reader="demoReader" processor="demoProcessor" writer="demoWriter"
+							commit-interval="2000"></chunk>
+					</tasklet>
+				</step>
+			</flow>
+		</split>
+		<step id="step4">
+			<tasklet>
+				<chunk reader="demoReader" processor="demoProcessor" writer="demoWriter"
+					commit-interval="2000"></chunk>
+			</tasklet>
+		</step>
+
+	</job>
+
+
+
+
+
+	<!-- <bean id="demoBatchXmlTasklet" class="org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"> -->
+
+	<!-- <property name="targetObject"> -->
+	<!-- <bean id="demoXmlTaskletTarget" class="com.dashuf.demo.job.batch.tasklettarget.DemoTaskletTarget"></bean> -->
+	<!-- </property> -->
+
+	<!-- <property name="targetMethod" value="exec"> -->
+	<!-- </property> -->
+
+	<!-- <property name="arguments"> -->
+	<!-- <array value-type="java.lang.String"> -->
+	<!-- <value>1</value> -->
+	<!-- </array> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+
+
+<!-- 	<job id="demoBatchModXmlJob" xmlns="http://www.springframework.org/schema/batch"> -->
+<!-- 		<step id="demoBatchModXmlStep"> -->
+<!-- 			<tasklet> -->
+<!-- 				<chunk reader="demoBatchModXmlReader" writer="demoBatchModXmlWriter" processor="demoBatchModXmlProcessor" commit-interval="2000"></chunk> -->
+<!-- 			</tasklet> -->
+<!-- 		</step> -->
+<!-- 	</job> -->
+
+
+<!-- 	<bean id="demoBatchModXmlReader" class="org.mybatis.spring.batch.MyBatisPagingItemReader"> -->
+<!-- 		<property name="sqlSessionFactory" ref="sqlSessionFactory" /> -->
+<!-- 		<property name="pageSize" value="2000" /> -->
+<!-- 		<property name="queryId" -->
+<!-- 			value="com.dashuf.demo.dao.UserDao.selectUsersByModNum" /> -->
+<!-- 		<property name="parameterValues"> -->
+<!-- 			<map> -->
+<!-- 				<entry key="_modNum" value="#{jobParameters['modNum']}"> -->
+<!-- 				</entry> -->
+<!-- 			</map> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="demoBatchModXmlWriter" class="org.mybatis.spring.batch.MyBatisBatchItemWriter"> -->
+<!-- 		<property name="sqlSessionFactory" ref="sqlSessionFactory" /> -->
+<!-- 		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" /> -->
+<!-- 		<property name="statementId" -->
+<!-- 			value="com.dashuf.demo.dao.SpecificUserDao.insertSpecificUser" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="demoBatchModXmlProcessor" class="com.dashuf.demo.job.batch.processor.DemoProcessor"></bean> -->
+	
+</beans>

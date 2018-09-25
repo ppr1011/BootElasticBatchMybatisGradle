@@ -36,6 +36,11 @@ import com.dashuf.demo.config.BatchJobConfig;
 import com.dashuf.demo.job.batch.listener.DemoJobListener;
 import com.dashuf.demo.job.batch.processor.DemoProcessor;
 
+/**
+ * SpringBatch读取偶数列的JOB
+ * @author chenguiqi
+ *
+ */
 @Configuration
 @EnableBatchProcessing
 @Import(BatchJobConfig.class)
@@ -98,7 +103,7 @@ public class DemoEvenJobConf {
 	}
 
 	@Bean("demoEvenBatchJob")
-	public Job DemoBatchJob(JobBuilderFactory jobBuilderFactory, @Qualifier("demoEvenBatchStep") Step step) {
+	public Job demoBatchJob(JobBuilderFactory jobBuilderFactory, @Qualifier("demoEvenBatchStep") Step step) {
 		return jobBuilderFactory.get("demoEvenBatchJob").incrementer(new RunIdIncrementer()).flow(step).end().listener(new DemoJobListener()).build();
 	}
 

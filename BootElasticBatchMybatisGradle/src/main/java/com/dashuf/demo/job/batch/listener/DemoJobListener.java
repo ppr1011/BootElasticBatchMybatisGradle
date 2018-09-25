@@ -16,14 +16,12 @@ public class DemoJobListener implements JobExecutionListener{
 	
 	@Override
 	public void beforeJob(JobExecution jobExecution) {
-		// TODO Auto-generated method stub
 		logger.info("job start...");
 		this.startTime = System.currentTimeMillis();
 	}
 
 	@Override
 	public void afterJob(JobExecution jobExecution) {
-		// TODO Auto-generated method stub
 		logger.info("job end");
 		this.endTime = System.currentTimeMillis();
 		logger.info("last time:{}",endTime-startTime);

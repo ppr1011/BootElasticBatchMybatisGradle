@@ -19,6 +19,12 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Resource;
 
+/**
+ * SimpleJob的配置类 样例
+ * 
+ * @author chenguiqi
+ *
+ */
 @Configuration
 public class DemoSimpleConf {
 
@@ -33,23 +39,22 @@ public class DemoSimpleConf {
 		return new DemoSimple();
 	}
 
-	@Bean(initMethod = "init",name="demoSimpleJobScheduler")
-	public JobScheduler simpleJobScheduler(@Qualifier("demoSimpleJob")SimpleJob simpleJob, @Value("${simpleJob.cron}")String cron,
-			@Value("${simpleJob.shardingTotalCount}")int shardingTotalCount,
-			@Value("${simpleJob.shardingItemParameters}")String shardingItemParameters) {
-		return new SpringJobScheduler(simpleJob, regCenter1,
-				getLiteJobConfiguration(simpleJob.getClass(), cron, shardingTotalCount, shardingItemParameters),
-				jobEventConfiguration);
+	@Bean(initMethod = "init", name = "demoSimpleJobScheduler")
+	public JobScheduler simpleJobScheduler(@Qualifier("demoSimpleJob") SimpleJob simpleJob,
+			@Value("${simpleJob.cron}") String cron, @Value("${simpleJob.shardingTotalCount}") int shardingTotalCount,
+			@Value("${simpleJob.shardingItemParameters}") String shardingItemParameters,
+			@Value("${simpleJob.description}") String description) {
+		return new SpringJobScheduler(simpleJob, regCenter1, getLiteJobConfiguration(simpleJob.getClass(), cron,
+				shardingTotalCount, shardingItemParameters, description), jobEventConfiguration);
 	}
 
 	private LiteJobConfiguration getLiteJobConfiguration(final Class<? extends SimpleJob> jobClass, final String cron,
-			final int shardingTotalCount, final String shardingItemParameters) {
+			final int shardingTotalCount, final String shardingItemParameters, final String description) {
 		return LiteJobConfiguration
-				.newBuilder(
-						new SimpleJobConfiguration(
-								JobCoreConfiguration.newBuilder(jobClass.getName(), cron, shardingTotalCount)
-										.shardingItemParameters(shardingItemParameters).build(),
-								jobClass.getCanonicalName()))
+				.newBuilder(new SimpleJobConfiguration(
+						JobCoreConfiguration.newBuilder(jobClass.getName(), cron, shardingTotalCount)
+								.description(description).shardingItemParameters(shardingItemParameters).build(),
+						jobClass.getCanonicalName()))
 				.overwrite(true).build();
 	}
 }
