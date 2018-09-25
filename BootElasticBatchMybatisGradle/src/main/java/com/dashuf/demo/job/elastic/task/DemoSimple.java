@@ -99,7 +99,7 @@ public class DemoSimple implements SimpleJob{
 //
 //		));
 		jobParameters = new JobParametersBuilder().addLong("time", System.currentTimeMillis()).addLong("modNum", Long.valueOf(shardingContext.getShardingParameter()))
-				.toJobParameters();				
+				.addLong("modTotal", Long.valueOf(shardingContext.getShardingTotalCount())).toJobParameters();				
 		String start = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		long startTime = System.currentTimeMillis();
 		

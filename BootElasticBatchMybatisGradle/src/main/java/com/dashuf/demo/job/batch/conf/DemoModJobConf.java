@@ -57,14 +57,14 @@ public class DemoModJobConf {
 	
 	@Bean("modItemReader")
 	@StepScope
-	public ItemReader<User> reader(@Value("#{jobParameters['modNum']}")long modNum) {
+	public ItemReader<User> reader(@Value("#{jobParameters['modNum']}")long modNum,@Value("#{jobParameters['modTotal']}")long modTotal) {
 		MyBatisPagingItemReader<User> reader = new MyBatisPagingItemReader<User>();
 		reader.setPageSize(2000);
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.dashuf.demo.dao.UserDao.selectUsersByModNum");		
 		Map<String, Object> parameterValues = new HashMap<String, Object>();
 		parameterValues.put("_modNum", modNum);
-		System.out.println(parameterValues.toString());
+		parameterValues.put("_modTotal", modTotal);
 		reader.setParameterValues(parameterValues);
 		return reader;
 	}

@@ -28,7 +28,7 @@ public interface UserDao {
 	 * 通用分片DAO
 	 * @return
 	 */
-	@Select("select * from user where mod(userId,10)=#{_modNum} limit #{_pagesize} OFFSET #{_skiprows}")
+	@Select("select * from user where mod(userId,#{_modTotal})=#{_modNum} limit #{_pagesize} OFFSET #{_skiprows}")
 	public List<User> selectUsersByModNum();
 	
 }
