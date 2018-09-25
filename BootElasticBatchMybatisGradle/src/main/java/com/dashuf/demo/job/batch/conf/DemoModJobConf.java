@@ -46,8 +46,6 @@ import com.dashuf.demo.job.batch.processor.DemoProcessor;
 @Import(BatchJobConfig.class)
 public class DemoModJobConf {
 
-	private static final Log logger = LogFactory.getLog(DemoModJobConf.class);
-
 	@Autowired
 	private SqlSessionFactory sqlSessionFactory;
 
@@ -62,7 +60,7 @@ public class DemoModJobConf {
 		reader.setPageSize(2000);
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.dashuf.demo.dao.UserDao.selectUsersByModNum");		
-		Map<String, Object> parameterValues = new HashMap<String, Object>();
+		Map<String, Object> parameterValues = new HashMap<String, Object>(10);
 		parameterValues.put("_modNum", modNum);
 		parameterValues.put("_modTotal", modTotal);
 		reader.setParameterValues(parameterValues);

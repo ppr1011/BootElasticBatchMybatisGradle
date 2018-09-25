@@ -74,19 +74,15 @@ public class DemoSimple implements SimpleJob{
 	private Job demoBatchXmlJob;
 	
 	@Autowired
-	private DemoModJobConf demoModJobConf;
-	
-	@Autowired
 	@Qualifier("demoBatchModJob")
 	private Job demoBatchModJob;
-	
-	@Value("${simplejob.jobname:NoName}")
-	private String name;
-	
-	public String getName() {
-		return name;
-	}
 
+	
+	@Autowired
+	@Qualifier("demoBatchOrderJob")
+	private Job demoBatchOrderJob;
+	
+	
 	public JobParameters jobParameters;
 	
 	@Override
@@ -112,14 +108,8 @@ public class DemoSimple implements SimpleJob{
 //			jobLauncher.run(demoBatchJob, jobParameters);			
 //			jobLauncher.run(demoBatchXmlJob, jobParameters);
 //			jobLauncher.run(demoTaskletBatchJob, jobParameters);
-
-//			int index = Integer.valueOf(shardingContext.getShardingParameter());
-//			ItemReader<User> reader = demoModJobConf.reader();		
-//			Job job = demoModJobConf.demoBatchJob(jobBuilderFactory, demoModJobConf.step(stepBuilderFactory, reader, demoModJobConf.writer(), demoModJobConf.processor()));			
-//			jobLauncher.run(job, jobParameters);
-			
-			jobLauncher.run(demoBatchModJob, jobParameters);
-			
+//			jobLauncher.run(demoBatchModJob, jobParameters);
+			jobLauncher.run(demoBatchOrderJob, jobParameters);
 		} catch (JobExecutionAlreadyRunningException e) {
 			e.printStackTrace();
 		} catch (JobRestartException e) {

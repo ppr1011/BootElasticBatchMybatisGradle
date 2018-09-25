@@ -17,6 +17,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
+/**
+ * 通用Batch配置
+ * @author chenguiqi
+ *
+ */
 @Configuration
 public class BatchJobConfig extends DefaultBatchConfigurer{
 

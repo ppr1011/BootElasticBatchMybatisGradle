@@ -29,6 +29,12 @@ import com.dashuf.demo.config.BatchJobConfig;
 import com.dashuf.demo.job.batch.listener.DemoJobListener;
 import com.dashuf.demo.job.batch.processor.DemoProcessor;
 
+
+/**
+ * 读取所有ID
+ * @author chenguiqi
+ *
+ */
 @Configuration
 @EnableBatchProcessing
 @Import(BatchJobConfig.class)
@@ -43,7 +49,7 @@ public class DemoJobConf {
 	private SqlSessionTemplate sqlSessionTemplate;
 
 	@Bean("demoReader")
-	public ItemReader<User> oddReader() {
+	public ItemReader<User> reader() {
 		MyBatisPagingItemReader<User> reader = new MyBatisPagingItemReader<User>();
 		reader.setPageSize(2000);
 		reader.setSqlSessionFactory(sqlSessionFactory);

@@ -24,6 +24,12 @@ import org.springframework.core.task.TaskExecutor;
 import com.dashuf.demo.config.BatchJobConfig;
 import com.dashuf.demo.job.batch.tasklettarget.DemoTaskletTarget;
 
+
+/**
+ * 使用Tasklet调用对象的JOB
+ * @author chenguiqi
+ *
+ */
 @Configuration
 @EnableBatchProcessing
 @Import(BatchJobConfig.class)
